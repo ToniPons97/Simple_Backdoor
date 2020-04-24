@@ -22,5 +22,6 @@ try:
     while True:
         message = input("> ")
         s.sendall(message.encode())
+        s.recv(1024)
 except KeyboardInterrupt:
     print("\n[CONTROL + C] detected... quiting... bye bye... fuck off...")
